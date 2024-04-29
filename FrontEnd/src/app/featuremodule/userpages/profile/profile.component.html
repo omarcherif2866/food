@@ -1,0 +1,142 @@
+<!-- Breadscrumb Section -->
+<div class="breadcrumb-bar">
+    <div class="container">
+        <div class="row align-items-center text-center">
+            <div class="col-md-12 col-12">
+                <h2 class="breadcrumb-title">Profile</h2>
+                <nav aria-label="breadcrumb" class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a [routerLink]="routes.home">Acceuil</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Profile</li>
+                    </ol>
+                </nav>							
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Breadscrumb Section -->
+
+<!-- Profile Content -->
+<div class="dashboard-content">		
+    <div class="container">
+        <div class="">			        
+            <ul class="dashborad-menus">
+                <li>
+                    <a [routerLink]="routes.dashboard">
+                        <i class="feather-grid"></i> <span>Dashboard</span>
+                    </a>
+                </li>
+                <li  class="active">
+                    <a [routerLink]="routes.profile">
+                        <i class="fa-solid fa-user"></i> <span>Profile</span>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.mylisting">
+                        <i class="feather-list"></i> <span>My Listing</span>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.bookmarks">
+                        <i class="fas fa-solid fa-heart"></i> <span>Bookmarks</span>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.messages">
+                        <i class="fa-solid fa-comment-dots"></i> <span>Messages</span>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLink]="routes.reviews">
+                        <i class="fas fa-solid fa-star"></i> <span>Reviews</span>
+                    </a>
+                </li>
+                <li>
+                    
+            <button class="btn btn-primary login-btn" (click)="signout()" type="submit">Logout</button>
+                </li>
+            </ul>											
+        </div>
+        <div class="profile-content">
+             <div class="row dashboard-info">
+                <div class="col-lg-9">
+                    <div class="card dash-cards">
+                        <div class="card-header">
+                            <h4>Profile Details</h4>																
+                        </div>
+                        <div class="card-body">
+                            
+                            <div class="profile-form">
+                                 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                                    <div class="form-group">
+                                        <label class="col-form-label">Username</label>
+                                        <div class="pass-group group-img">
+                                            <span class="lock-icon"><i class="feather-user"></i></span>
+                                            <input type="text" class="form-control" id="username"formControlName="username" class="form-control" [value]="user.username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }"  id="inputusername4">	
+                                            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                                                <div *ngIf="f.username.errors.required">username is required</div>
+                                                <div *ngIf="f.username.errors.username">username must be a valid username</div>												
+                                        </div>
+                                    </div> 
+                                    </div>
+                                    <div class="row">
+                                         <div class="col-lg-6 col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-form-label">Addresse Email</label>
+                                                <div class="group-img">
+                                                    <i class="feather-mail"></i>
+                                                    <input type="email" class="form-control" id="email" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"  id="inputemail4" [value]="user.email">
+                                                    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                                        <div *ngIf="f.email.errors.required">Email is required</div>
+                                                        <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                         </div>											
+                                    </div>	
+                                    <button class="btn btn-primary w-100 login-btn" type="submit">Update Profile</button>
+                                      <div *ngIf="!user">
+                                        <p>Chargement en cours...</p>
+                                      </div>									 
+                                 </form>
+                            </div> 
+                        </div>								
+                    </div>	
+                </div>
+                <!-- app/components/profile/profile.component.html -->
+  
+                <div class="col-lg-3">
+                    <div class="profile-sidebar">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>Changer Mot de Passe</h4>
+                            </div>	
+                            <div class="card-body">
+                               <form>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Mot de Passe Courant</label>
+                                        <div class="pass-group group-img">
+                                            <span class="lock-icon"><i class="feather-lock"></i></span>
+                                            <input type="password" class="form-control pass-input" placeholder="Mot de Passe">													
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-form-label">Nouveau Mot de Passe</label>
+                                        <div class="pass-group group-img">
+                                            <span class="lock-icon"><i class="feather-lock"></i></span>
+                                            <input type="password" class="form-control pass-input" value="..............">
+                                            
+                                            <span  [ngClass]="Toggledata == true ? 'toggle-password feather-eye' : 'toggle-password feather-eye-off'"  (click)="iconLogle()"></span>
+                                        </div>
+                                    </div>	
+                                    <button class="btn btn-primary" type="submit"> Changer Mot de Passe</button>											
+                               </form>								
+                            </div>  									
+                        </div>							
+                    </div>
+                </div>							
+             </div>				
+        </div>
+    </div>		
+</div>		
+<!-- /Profile Content -->
