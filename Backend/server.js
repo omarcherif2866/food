@@ -124,8 +124,12 @@ mongoose.set('debug', false);
 mongoose.Promise = global.Promise;
 mongoose
   .connect(process.env.MONGO_URI)
-  .then(() => console.log('Connected to MongoDB Atlas'))
-  .catch(err => console.log(err));
+  .then(() => console.log('✅ Connected to MongoDB Atlas'))
+  .catch(err => console.log('❌ MongoDB Error:', err.message));
+
+// Ajoute ça juste après :
+console.log('MONGO_URI exists:', !!process.env.MONGO_URI);
+console.log('MONGO_URI value:', process.env.MONGO_URI);
 
 // ✅ CORS
 app.use(cors({
