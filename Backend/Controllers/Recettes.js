@@ -1,4 +1,4 @@
-import Recettes from '../models/Recettes.js';
+import Recettes from '../models/recettes.js';
 
 
 
