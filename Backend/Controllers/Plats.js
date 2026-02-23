@@ -1,7 +1,7 @@
 import Plats from '../Models/plats.js';
-import Recettes from '../models/recettes.js';
-import Specialites from '../models/specialite.js';
-import Ingredients from '../models/ingredients.js';
+import Recettes from '../Models/recettes.js';
+import Specialites from '../Models/specialite.js';
+import Ingredients from '../Models/ingredients.js';
 import PDFDocument from 'pdfkit';
 import fs from 'fs';
 
