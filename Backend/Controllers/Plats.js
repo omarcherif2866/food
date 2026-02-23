@@ -46,15 +46,16 @@ export function addOncePlat(req, res) {
 export function getAll(req, res) {
   Plats
     .find({})
-
+    .populate('specialite')
+    .populate('withIngredients')
+    .populate('recette')
     .then(docs => {
       res.status(200).json(docs);
     })
     .catch(err => {
-      res.status(500).json({ error: err });
+      res.status(500).json({ error: err.message }); // ← .message pour voir l'erreur
     });
 }
-
 export async function DeletePlat(req, res) {
   const id =req.params.id
   const plat = await Plats.findByIdAndDelete(id);
