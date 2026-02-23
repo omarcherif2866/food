@@ -1,4 +1,4 @@
-import Ingredients from '../models/ingredients.js';
+import Ingredients from '../Models/ingredients.js';
 
 
 import { validationResult } from "express-validator";
