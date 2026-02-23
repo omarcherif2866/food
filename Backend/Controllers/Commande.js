@@ -1,6 +1,6 @@
 // Import the required models
-import Commande from '../Models/Commande.js';
-import LigneCommande from '../Models/Ligne_commande.js';
+import Commande from '../Models/commande.js';
+import LigneCommande from '../Models/ligne_commande.js';
 
 // LigneCommande Controllers
 
