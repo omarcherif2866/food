@@ -40,9 +40,6 @@ export function addOncePlat(req, res) {
 
 
       
-  
-
-
 export function getAll(req, res) {
   Plats
     .find({})
@@ -53,7 +50,12 @@ export function getAll(req, res) {
       res.status(200).json(docs);
     })
     .catch(err => {
-      res.status(500).json({ error: err.message }); // ← .message pour voir l'erreur
+      console.error('ERREUR PLATS:', err); // ← log complet
+      res.status(500).json({ 
+        error: err.message,
+        name: err.name,
+        detail: JSON.stringify(err)
+      });
     });
 }
 export async function DeletePlat(req, res) {
