@@ -1,5 +1,5 @@
 import  User  from "../Models/user.js";
-import Role from "../Models/Role.js";
+import Role from "../Models/role.js";
 
 const checkDuplicateUsernameOrEmail = async (req, res, next) => {
   try {
