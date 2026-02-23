@@ -117,7 +117,7 @@ import CommandeRoutes from './routes/Commande.js';
 
 const app = express();
 const port = process.env.PORT || 9090;
-const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:4200';
+const FRONTEND_URL = 'https://food-wheat-ten.vercel.app';
 
 // ✅ MongoDB Atlas
 mongoose.set('debug', false);
