@@ -15,7 +15,7 @@ import {
   deleteCommande,
   calculateCommandeTotalPrice,
   
-} from '../Controllers/commande.js';;
+} from '../Controllers/Commande.js';;
 
 const router = express.Router();
 router.route('/')
