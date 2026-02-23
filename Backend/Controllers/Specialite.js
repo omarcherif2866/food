@@ -1,4 +1,4 @@
-import Specialite from '../models/specialite.js';
+import Specialite from '../Models/specialite.js';
 
 
 
