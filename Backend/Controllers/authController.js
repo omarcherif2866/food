@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
 import User  from "../Models/user.js";
-import Role  from "../Models/Role.js"; // Import the User and Role models
+import Role  from "../Models/role.js"; // Import the User and Role models
 
 const generateHashedPassword = async (password) => {
   const saltRounds = 10;
