@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import  User  from "../Models/user.js";
-import  Role  from "../Models/Role.js";
+import  Role  from "../Models/role.js";
 
 // const verifyToken = (req, res, next) => {
 //   let token = req.session.token;
