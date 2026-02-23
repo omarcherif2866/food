@@ -132,9 +132,9 @@ console.log('MONGO_URI exists:', !!process.env.MONGO_URI);
 console.log('MONGO_URI value:', process.env.MONGO_URI);
 
 // ✅ CORS
+// ✅ Après
 app.use(cors({
-  origin: ['http://localhost:4200', FRONTEND_URL],
-  credentials: true,
+  origin: '*',
   optionsSuccessStatus: 200
 }));
 
