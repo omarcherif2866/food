@@ -1,0 +1,21 @@
+.category-img {
+  width: 100%;       /* s'adapte à la colonne */
+  height: 120px;     /* hauteur fixe pour uniformité */
+  object-fit: cover; /* garde les proportions et crop si nécessaire */
+  border-radius: 8px;
+}
+
+.our-category-box {
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: transform 0.3s;
+}
+
+.our-category-box:hover {
+  transform: scale(1.05);
+}
+
+.our-category-info h5 {
+  font-size: 14px;
+  margin-top: 5px;
+}
