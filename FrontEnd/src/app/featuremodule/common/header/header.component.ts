@@ -70,8 +70,13 @@ ngOnInit(): void {
 }
 
 openAddEditEmpForm() {
-  const dialogRef = this._dialog.open(IngredientsComponent);
-
+  this._dialog.open(IngredientsComponent, {
+    width: '600px',
+    maxWidth: '95vw',
+    maxHeight: '90vh',
+    panelClass: 'responsive-dialog',
+    autoFocus: false
+  });
 }
 
 }
