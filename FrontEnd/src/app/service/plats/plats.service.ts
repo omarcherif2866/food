@@ -49,7 +49,9 @@ export class PlatService {
     return this._http.get<Plat[]>(`${this.apiUrl}/plats/`);
   }
 
-
+  getPlatImageUrl(imageName: string): string {
+    return `${this.apiUrl}/${imageName}`;
+  }
 
   // private removeDuplicates(plats: Plat[]): Plat[] {
   //   // Use a Set to keep track of unique plats based on their unique identifier (e.g., platId).
