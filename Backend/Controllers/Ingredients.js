@@ -1,17 +1,21 @@
 import Ingredients from '../Models/ingredients.js';
-
+import cloudinary from 'cloudinary';
 
 import { validationResult } from "express-validator";
 
 
 export  function addOnceIngredients (req, res){
   
-
+      // Vérification de l'image de profil
+      const imageFile = req.file;
+      if (!imageFile) {
+        return res.status(400).json({ message: 'Please upload an image' });
+      }
             Ingredients.create({
             name: req.body.name,
             // quantite: req.body.quantite,
             description: req.body.description,
-            ingImg: `${req.file.filename}`
+            ingImg: imageFile.path,
 
           })
             .then((newIngredients) => {
