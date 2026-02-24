@@ -57,8 +57,8 @@ export class ListingGridComponent implements OnInit{
   // }
 
 
-  getPlatImageUrl(images: string): string {
-    return `https://foodbackend-omega.vercel.app/img/${images}`;
+  getPlatImageUrl(imageName: string): string {
+    return this.platservice.getPlatImageUrl(imageName);
   }
 
 }
