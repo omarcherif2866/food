@@ -1,21 +1,58 @@
-.content {
-  padding-top: 10px;
-}
-.row {
-  display: flex;
-  gap: 10px;
+// .content {
+//   padding-top: 10px;
+// }
+// .row {
+//   display: flex;
+//   gap: 10px;
 
-  mat-form-field {
-    width: 100%;
-  }
+//   mat-form-field {
+//     width: 100%;
+//   }
+// }
+
+// .action {
+//   padding: 0px 25px 20px;
+//   button {
+//     flex: 1;
+//   }
+// }
+// h2 {
+//   color: rgb(193, 9, 9); /* Set the desired color */
+// }
+/* Contenu scrollable */
+.dialog-content {
+  max-height: 65vh;
+  overflow-y: auto;
+  padding-right: 10px;
 }
 
-.action {
-  padding: 0px 25px 20px;
-  button {
-    flex: 1;
-  }
+/* Largeur champs */
+.full-width {
+  width: 100%;
+  margin-bottom: 15px;
 }
-h2 {
-  color: rgb(193, 9, 9); /* Set the desired color */
+
+/* Upload section */
+.upload-section {
+  margin-top: 15px;
+}
+
+/* Actions fixes */
+.dialog-actions {
+  padding: 15px;
+}
+
+/* MOBILE FULL SCREEN */
+@media (max-width: 768px) {
+
+  ::ng-deep .mat-mdc-dialog-container {
+    width: 100vw !important;
+    height: 100vh !important;
+    max-width: 100vw !important;
+    border-radius: 0 !important;
+  }
+
+  .dialog-content {
+    max-height: 75vh;
+  }
 }
