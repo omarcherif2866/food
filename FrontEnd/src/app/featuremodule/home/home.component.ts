@@ -86,9 +86,14 @@ export class HomeComponent implements OnInit{
       );
       }
 
-  getSpecialityImageUrl(specImg: string): string {
-    return `https://foodbackend-omega.vercel.app/img/${specImg}`;
+  // getSpecialityImageUrl(specImg: string): string {
+  //   return `https://foodbackend-omega.vercel.app/img/${specImg}`;
+  // }
+
+    getSpecialityImageUrl(imageName: string): string {
+    return this.specialiteService.getSpecialityImageUrl(imageName);
   }
+
 
   showPlats(specialite: Specialite): void {
     this.platService.getPlatsBySpeciality(specialite._id).subscribe(
