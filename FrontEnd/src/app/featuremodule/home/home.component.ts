@@ -9,7 +9,6 @@ import { SpecialiteService } from 'src/app/service/specialite/specialite.service
 import { Specialite } from 'src/app/Models/specialite/specialite';
 import { PlatService } from 'src/app/service/plats/plats.service';
 import { Plat } from 'src/app/Models/plats/plat';
-import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -20,7 +19,6 @@ export class HomeComponent implements OnInit{
   public categories: any = [];
   specialites!: Specialite[];
   plats!: Plat[];
-  private apiUrl = environment.apiUrl;
 
   selectedSpecialite: Specialite | null = null; // Initialisez selectedSpecialite à null
 
@@ -89,7 +87,7 @@ export class HomeComponent implements OnInit{
       }
 
   getSpecialityImageUrl(specImg: string): string {
-    return `${this.apiUrl}/img/${specImg}`;
+    return `https://foodbackend-omega.vercel.app/img/${specImg}`;
   }
 
   showPlats(specialite: Specialite): void {
