@@ -27,5 +27,9 @@ export class SpecialiteService {
     return this._http.delete<Specialite>(`${this.apiUrl}/specialites/${id}`);
   }
 
+    getSpecialityImageUrl(imageName: string): string {
+    return `${this.apiUrl}/${imageName}`;
+  }
+
 
 }
