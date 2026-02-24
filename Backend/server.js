@@ -98,6 +98,7 @@ import morgan from 'morgan';
 import cors from 'cors';
 import cookieSession from 'cookie-session';
 import { config as dotenvConfig } from 'dotenv';
+
 dotenvConfig();
 
 import { notFoundError, errorHandler } from './Middelware/error-handler.js';
@@ -119,39 +120,59 @@ const app = express();
 const port = process.env.PORT || 9090;
 const FRONTEND_URL = 'https://food-wheat-ten.vercel.app';
 
-// ✅ MongoDB Atlas
+
+// =======================
+// ✅ MONGODB
+// =======================
 mongoose.set('debug', false);
 mongoose.Promise = global.Promise;
-mongoose
-  .connect(process.env.MONGO_URI)
+
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('✅ Connected to MongoDB Atlas'))
   .catch(err => console.log('❌ MongoDB Error:', err.message));
 
-// Ajoute ça juste après :
-console.log('MONGO_URI exists:', !!process.env.MONGO_URI);
-console.log('MONGO_URI value:', process.env.MONGO_URI);
 
-app.use(cors({
-  origin: [
-    'http://localhost:4200',
-    'https://food-wheat-ten.vercel.app'
-  ],
-  credentials: true
-}));
+// =======================
+// ✅ CORS CONFIG (IMPORTANT)
+// =======================
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", FRONTEND_URL);
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Credentials", "true");
 
-app.options('*', cors());
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
 
+  next();
+});
+
+
+// =======================
+// ✅ MIDDLEWARES
+// =======================
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/img', express.static('public/images'));
+
+
+// =======================
+// ✅ COOKIE SESSION (PRODUCTION READY)
+// =======================
 app.use(cookieSession({
   name: "projectPi-session",
   secret: process.env.COOKIE_SECRET || "fallback_secret",
-  httpOnly: true
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",   // 🔥 obligatoire HTTPS
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
 }));
 
-// Routes
+
+// =======================
+// ✅ ROUTES
+// =======================
 app.use('/reclamation', reclamation_route);
 app.use('/Commande', CommandeRoutes);
 app.use('/reclamation_type', reclamation_type_route);
@@ -166,20 +187,31 @@ app.use('/user', UsersRoutes);
 app.use('/role', RoleRoutes);
 app.use('/api', AuthRoutes);
 
-// ✅ Redirects dynamiques
+
+// =======================
+// ✅ REDIRECTS
+// =======================
 app.post('/user/api', (req, res) => {
   res.redirect(`${FRONTEND_URL}/userpages/dashboard`);
 });
+
 app.post('/user/confirm-user/:userId', (req, res) => {
   res.redirect(`${FRONTEND_URL}/auth/login`);
 });
 
+
+// =======================
+// ✅ ERROR HANDLERS
+// =======================
 app.use(notFoundError);
 app.use(errorHandler);
 
-// ✅ Listen seulement en local
+
+// =======================
+// ✅ LOCAL LISTEN
+// =======================
 if (process.env.NODE_ENV !== 'production') {
-  app.listen(port, () => console.log(`Server running on port ${port}`));
+  app.listen(port, () => console.log(`🚀 Server running on port ${port}`));
 }
 
-export default app; // ← indispensable pour Vercel
+export default app;
