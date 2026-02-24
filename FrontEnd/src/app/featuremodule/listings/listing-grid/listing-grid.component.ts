@@ -4,7 +4,6 @@ import { routes } from 'src/app/core/helpers/routes/routes';
 import { DataService } from 'src/app/service/data.service';
 import { PlatService } from 'src/app/service/plats/plats.service';
 import { distinctUntilChanged } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-listing-grid',
   templateUrl: './listing-grid.component.html',
@@ -14,7 +13,6 @@ export class ListingGridComponent implements OnInit{
   public routes=routes;
   public Bookmark :any =[];
   plats!: Plat[];
-  private apiUrl = environment.apiUrl;
 
   constructor(private Dataservice:DataService , private platservice: PlatService){
     this.Bookmark=this.Dataservice.bookmarkList
@@ -60,7 +58,7 @@ export class ListingGridComponent implements OnInit{
 
 
   getPlatImageUrl(images: string): string {
-    return `${this.apiUrl}/img/${images}`;
+    return `https://foodbackend-omega.vercel.app/img/${images}`;
   }
 
 }
