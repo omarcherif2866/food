@@ -131,12 +131,15 @@ mongoose
 console.log('MONGO_URI exists:', !!process.env.MONGO_URI);
 console.log('MONGO_URI value:', process.env.MONGO_URI);
 
-// ✅ CORS
-// ✅ Après
 app.use(cors({
-  origin: '*',
-  optionsSuccessStatus: 200
+  origin: [
+    'http://localhost:4200',
+    'https://food-wheat-ten.vercel.app'
+  ],
+  credentials: true
 }));
+
+app.options('*', cors());
 
 app.use(morgan('dev'));
 app.use(express.json());
