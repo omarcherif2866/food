@@ -135,7 +135,13 @@
               <div class="our-category-box" (click)="showPlats(specialite)">
                 <a href="javascript:void(0);">
                   <div class="our-category-img">
-                    <img [src]="getSpecialityImageUrl(specialite.specImg)" width="150" height="100" class="img-fluid" alt="{{ specialite.name }}">
+                    <!-- <img [src]="getSpecialityImageUrl(specialite.specImg)" width="150" height="100" class="img-fluid" alt="{{ specialite.name }}"> -->
+                    <img 
+  [src]="specialite.specImg ? specialite.specImg : 'assets/img/default.png'"
+  width="150"
+  height="100"
+  class="img-fluid"
+  alt="{{ specialite.name }}">
                   </div>
                 </a>
                 <div class="our-category-info">
