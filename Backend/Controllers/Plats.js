@@ -4,14 +4,18 @@ import Specialites from '../Models/specialite.js';
 import Ingredients from '../Models/ingredients.js';
 import PDFDocument from 'pdfkit';
 import fs from 'fs';
-
+import cloudinary from 'cloudinary';
 
 
 
 
 
 export function addOncePlat(req, res) {
-
+      // Vérification de l'image de profil
+      const imageFile = req.file;
+      if (!imageFile) {
+        return res.status(400).json({ message: 'Please upload an image' });
+      }
   Plats.create({
     name: req.body.name,
     timeOfCook: req.body.timeOfCook,
@@ -19,7 +23,7 @@ export function addOncePlat(req, res) {
     withIngredients: req.body.withIngredients.split(','),
     specialite:req.body.specialite,
     recette: req.body.recette,
-    images: `${req.file.filename}`
+    images: imageFile.path,
   })
     .then((newPlat) => {
       res.status(200).json({
