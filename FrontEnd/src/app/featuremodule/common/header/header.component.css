@@ -1,0 +1,21 @@
+/* Desktop uniquement */
+.desktop-only {
+  display: block;
+}
+
+/* Mobile uniquement */
+.mobile-only {
+  display: none;
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+}
