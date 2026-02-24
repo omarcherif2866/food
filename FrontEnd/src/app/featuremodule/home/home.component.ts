@@ -79,6 +79,7 @@ export class HomeComponent implements OnInit{
       .subscribe(
         (data) => {
           this.specialites = data;
+          console.log("specialites: ",data);
         },
         (error) => {
           console.error('Erreur lors de la récupération des spécialités :', error);
