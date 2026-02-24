@@ -1,14 +1,19 @@
 import Specialite from '../Models/specialite.js';
-
+import cloudinary from 'cloudinary';
 
 
 
 export  function addOnceSpeciality (req, res){
+                  // Vérification de l'image de profil
+      const imageFile = req.file;
+      if (!imageFile) {
+        return res.status(400).json({ message: 'Please upload an image' });
+      }
             Specialite.create({
             name: req.body.name,
             description: req.body.description,
             // plats: req.body.plats,
-            specImg: `${req.file.filename}`
+            specImg: imageFile.path,
 
 
           })
