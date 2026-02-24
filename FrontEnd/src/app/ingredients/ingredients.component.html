@@ -1,4 +1,4 @@
-<div mat-dialog-title>
+<!-- <div mat-dialog-title>
 
         <div class="row align-items-center text-center">
             <div class="col-md-12 col-12">
@@ -18,7 +18,7 @@
 </div>
 <form [formGroup]="empForm">
   <div mat-dialog-content class="content">
-    <!-- nom ingredient -->
+
     <div class="row">
       <mat-form-field appearance="outline">
         <mat-label>Nom d'ingredient</mat-label>
@@ -26,7 +26,7 @@
       </mat-form-field>
     </div>
 
-    <!-- description ingredient -->
+
     <div class="row">
       <mat-form-field appearance="outline">
         <mat-label>Description</mat-label>
@@ -34,11 +34,7 @@
       </mat-form-field>
     </div>
 
-    <!-- image ingredeint -->
-    <!-- <div class="form-group">
-      <h4 for="images">Image</h4>
-      <input type="file" id="ingImg" (change)="onFileSelected($event)">
-    </div> -->
+
     <div class="col-lg-6 col-md-6 featured-img1">
       <h6 class="media-title">Image</h6>
       <div class="settings-upload-btn">
@@ -51,4 +47,65 @@
 <div mat-dialog-actions class="action">
   <button class="btn btn-outline-danger" [mat-dialog-close]="false">Cancel</button>
   <button class="btn btn-outline-success" type="submit" (click)="onFormSubmit()">{{ data ? 'Update' : 'Save' }}</button>
+</div> -->
+
+<h2 mat-dialog-title class="dialog-title">
+  Ajouter vos Ingredients
+</h2>
+
+<div mat-dialog-content class="dialog-content">
+
+  <!-- Liste existante -->
+  <h4>La liste des ingredients existante :</h4>
+  <ul>
+    <li *ngFor="let ingredient of ingredients">
+      {{ ingredient.name }}
+    </li>
+  </ul>
+
+  <button class="btn btn-primary mb-3" (click)="Suivant()">
+    Suivant
+  </button>
+
+  <h4>
+    Si vous n'avez pas trouvé les ingredients de votre plat,
+    remplissez ce formulaire :
+  </h4>
+
+  <!-- FORM -->
+  <form [formGroup]="empForm">
+
+    <!-- Nom -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nom d'ingredient</mat-label>
+      <input matInput type="text" formControlName="name">
+    </mat-form-field>
+
+    <!-- Description -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Description</mat-label>
+      <input matInput formControlName="description">
+    </mat-form-field>
+
+    <!-- Image -->
+    <div class="upload-section">
+      <h6>Image</h6>
+      <input type="file"
+             accept="image/*"
+             (change)="onFileSelected($event)"
+             class="image-upload">
+    </div>
+
+  </form>
+
+</div>
+
+<div mat-dialog-actions align="end" class="dialog-actions">
+  <button mat-button color="warn" [mat-dialog-close]="false">
+    Cancel
+  </button>
+  <button mat-raised-button color="primary"
+          (click)="onFormSubmit()">
+    {{ data ? 'Update' : 'Save' }}
+  </button>
 </div>
