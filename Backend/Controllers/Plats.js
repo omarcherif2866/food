@@ -165,135 +165,200 @@ export async function downloadPlatPDF(req, res) {
 }
 
 // Fonction pour générer le PDF avec les caractéristiques du plat
+// async function generatePDF(plat) {
+//   // Création d'un nouveau document PDF
+//   const doc = new PDFDocument();
+//   const namePlat = './generated/pdf/'+ plat.name +'.pdf'
+//   // Stream du document vers un fichier
+//   const outputStream = fs.createWriteStream(namePlat);
+//   doc.pipe(outputStream);
+
+//   // Définition de l'arrière-plan
+//   const backgroundImagePath = './assets/background.jpg';
+
+
+//   // Ajouter l'arrière-plan à la première page
+//   doc.image(backgroundImagePath, 0, 0, { width: doc.page.width, height: doc.page.height });
+
+//   // Événement lors de l'ajout d'une nouvelle page
+//   doc.on('pageAdded', () => {
+//     // Appliquer le même design de la première page à chaque nouvelle page
+//     doc.image(backgroundImagePath, 0, 0, { width: doc.page.width, height: doc.page.height });
+//   });
+
+
+//   // Écriture des caractéristiques du plat dans le document PDF
+//   const imagePath = './assets/logo-01.jpg';
+
+//   // doc.image(imagePath, { fit: [230, 230] });
+//   doc.image(imagePath, 20, 20, { width: 100 });
+//   doc.moveDown();
+//   doc.moveDown();
+//   doc.moveDown();
+//   doc.moveDown();
+//   doc.moveDown();
+//   doc.moveDown();
+//   doc.moveDown();
+//   doc.moveDown();
+//   doc.moveDown();
+//   doc.fill('red');
+//   doc.fontSize(16).text('Nom : ' ,{ align: 'center' });
+//   doc.fill('black');
+//   doc.fontSize(16).text( plat.name, {  align: 'center', underline: true });
+
+//   if (plat.images) {
+//     // Charger et afficher l'image
+//     const imagePlatPath = `./public/images/${plat.images}`;
+//     const imageWidth = 300; // Largeur de l'image en pixels
+//     const xPosition = (doc.page.width - imageWidth) / 2;
+//     doc.image(imagePlatPath, xPosition, undefined, { width: imageWidth });  }
+//   doc.moveDown();
+//   doc.fill('red');
+//   doc.fontSize(15).text('timeOfCook : ',{ align: 'center' });
+//   doc.fill('black');
+//   doc.fontSize(15).text( plat.timeOfCook, { align: 'center' });
+//   // doc.fill('red');
+//   // doc.fontSize(15).text('Ingredients : ',{ align: 'center' } );
+//   // doc.fill('black');
+//   // doc.fontSize(15).text( plat.withIngredients, { align: 'center' });
+//   // doc.moveDown();
+//   if (plat.withIngredients && plat.withIngredients.length > 0) {
+//     doc.moveDown(); // Espacement entre les lignes
+//     doc.fill('red').fontSize(15).text('Ingrédients :', { align: 'center' });
+
+//     for (const ingredientId of plat.withIngredients) {
+//       try {
+//         const ingredient = await Ingredients.findById(ingredientId);
+//         if (ingredient) {
+//           doc.fill('black').fontSize(15).text('- ' + ingredient.name + ' ' + ingredient.description , { align: 'center' });
+//           const imagePath = `./public/images/${ingredient.ingImg}`;
+//           const imageWidth = 100; // Largeur de l'image en pixels
+//           const xPosition = (doc.page.width - imageWidth) / 2;
+//           doc.image(imagePath, xPosition, undefined, { width: imageWidth });
+//           doc.moveDown(); 
+
+//         }
+//       } catch (error) {
+//         console.error('Erreur lors de la récupération de l\'ingrédient', error);
+//       }
+//     }
+//   }
+//   // doc.fill('red');
+//   // doc.fontSize(15).text('specialite : ',{ align: 'center' } );
+//   // doc.fill('black');
+//   // doc.fontSize(15).text( plat.specialite, { align: 'center' });
+//   // doc.moveDown();
+//   if (plat.specialite) {
+//     doc.fill('red').fontSize(15).text('Spécialité :', { align: 'center' });
+
+//     try {
+//       const specialite = await Specialites.findById(plat.specialite);
+//       if (specialite) {
+//         doc.fill('black').fontSize(15).text('- ' + specialite.name, { align: 'center' });
+//         const imagePath = `./public/images/${specialite.specImg}`;
+//         const imageWidth = 30; // Largeur de l'image en pixels
+//         const xPosition = (doc.page.width - imageWidth) / 2;
+//         doc.image(imagePath, xPosition, undefined, { width: imageWidth });      }
+//     } catch (error) {
+//       console.error('Erreur lors de la récupération de la spécialité', error);
+//     }
+//   }
+//   // doc.fill('red');
+//   // doc.fontSize(15).text('recette : ' ,{ align: 'center' });
+//   // doc.fill('black');
+//   // doc.fontSize(15).text( plat.recette, { align: 'center' });
+//   if (plat.recette && plat.recette.length > 0) {
+//     doc.moveDown(); // Espacement entre les lignes
+//     doc.fill('red').fontSize(15).text('Recette :',{ align: 'center' });
+
+//     for (const recetteId of plat.recette) {
+//       try {
+//         const recette = await Recettes.findById(recetteId);
+//         if (recette) {
+//           doc.fill('black').fontSize(15).text('- ' + recette.order + ' : ' + recette.description,{ align: 'center' });
+
+//         }
+//       } catch (error) {
+//         console.error('Erreur lors de la récupération de la recette', error);
+//       }
+//     }
+//   }
+
+
+
+
+//   // Finalisation du document PDF
+//   doc.end();
+
+//   console.log('Le PDF a été généré avec succès !');
+// }
+
 async function generatePDF(plat) {
-  // Création d'un nouveau document PDF
-  const doc = new PDFDocument();
-  const namePlat = './generated/pdf/'+ plat.name +'.pdf'
-  // Stream du document vers un fichier
-  const outputStream = fs.createWriteStream(namePlat);
-  doc.pipe(outputStream);
+  return new Promise(async (resolve, reject) => {
+    const doc = new PDFDocument();
+    const chunks = [];
 
-  // Définition de l'arrière-plan
-  const backgroundImagePath = './assets/background.jpg';
+    // ✅ Collecte en mémoire au lieu d'écrire un fichier
+    doc.on('data', chunk => chunks.push(chunk));
+    doc.on('end', () => resolve(Buffer.concat(chunks)));
+    doc.on('error', reject);
 
+    // ✅ Titre (pas d'image de fond — filesystem indisponible sur Vercel)
+    doc.fontSize(20).fill('red').text('Fiche Plat', { align: 'center' });
+    doc.moveDown(2);
 
-  // Ajouter l'arrière-plan à la première page
-  doc.image(backgroundImagePath, 0, 0, { width: doc.page.width, height: doc.page.height });
+    // Nom
+    doc.fontSize(16).fill('red').text('Nom :', { align: 'center' });
+    doc.fontSize(16).fill('black').text(plat.name, { align: 'center', underline: true });
+    doc.moveDown();
 
-  // Événement lors de l'ajout d'une nouvelle page
-  doc.on('pageAdded', () => {
-    // Appliquer le même design de la première page à chaque nouvelle page
-    doc.image(backgroundImagePath, 0, 0, { width: doc.page.width, height: doc.page.height });
+    // Temps de cuisson
+    doc.fontSize(15).fill('red').text('Temps de cuisson :', { align: 'center' });
+    doc.fontSize(15).fill('black').text(plat.timeOfCook, { align: 'center' });
+    doc.moveDown();
+
+    // ✅ Ingrédients déjà populés — plus besoin de Ingredients.findById()
+    if (plat.withIngredients && plat.withIngredients.length > 0) {
+      doc.fontSize(15).fill('red').text('Ingrédients :', { align: 'center' });
+      doc.moveDown();
+
+      for (const ingredient of plat.withIngredients) {
+        doc.fontSize(13).fill('black').text(
+          `- ${ingredient.name} : ${ingredient.description}`,
+          { align: 'center' }
+        );
+        doc.moveDown(0.5);
+      }
+      doc.moveDown();
+    }
+
+    // ✅ Spécialité déjà populée — plus besoin de Specialites.findById()
+    if (plat.specialite) {
+      doc.fontSize(15).fill('red').text('Spécialité :', { align: 'center' });
+      doc.fontSize(13).fill('black').text(
+        `- ${plat.specialite.name}`,
+        { align: 'center' }
+      );
+      doc.moveDown();
+    }
+
+    // ✅ Recette déjà populée — plus besoin de Recettes.findById()
+    if (plat.recette && plat.recette.length > 0) {
+      doc.fontSize(15).fill('red').text('Recette :', { align: 'center' });
+      doc.moveDown();
+
+      for (const recette of plat.recette) {
+        doc.fontSize(13).fill('black').text(
+          `- ${recette.order} : ${recette.description}`,
+          { align: 'center' }
+        );
+        doc.moveDown(0.5);
+      }
+    }
+
+    doc.end();
   });
-
-
-  // Écriture des caractéristiques du plat dans le document PDF
-  const imagePath = './assets/logo-01.jpg';
-
-  // doc.image(imagePath, { fit: [230, 230] });
-  doc.image(imagePath, 20, 20, { width: 100 });
-  doc.moveDown();
-  doc.moveDown();
-  doc.moveDown();
-  doc.moveDown();
-  doc.moveDown();
-  doc.moveDown();
-  doc.moveDown();
-  doc.moveDown();
-  doc.moveDown();
-  doc.fill('red');
-  doc.fontSize(16).text('Nom : ' ,{ align: 'center' });
-  doc.fill('black');
-  doc.fontSize(16).text( plat.name, {  align: 'center', underline: true });
-
-  if (plat.images) {
-    // Charger et afficher l'image
-    const imagePlatPath = `./public/images/${plat.images}`;
-    const imageWidth = 300; // Largeur de l'image en pixels
-    const xPosition = (doc.page.width - imageWidth) / 2;
-    doc.image(imagePlatPath, xPosition, undefined, { width: imageWidth });  }
-  doc.moveDown();
-  doc.fill('red');
-  doc.fontSize(15).text('timeOfCook : ',{ align: 'center' });
-  doc.fill('black');
-  doc.fontSize(15).text( plat.timeOfCook, { align: 'center' });
-  // doc.fill('red');
-  // doc.fontSize(15).text('Ingredients : ',{ align: 'center' } );
-  // doc.fill('black');
-  // doc.fontSize(15).text( plat.withIngredients, { align: 'center' });
-  // doc.moveDown();
-  if (plat.withIngredients && plat.withIngredients.length > 0) {
-    doc.moveDown(); // Espacement entre les lignes
-    doc.fill('red').fontSize(15).text('Ingrédients :', { align: 'center' });
-
-    for (const ingredientId of plat.withIngredients) {
-      try {
-        const ingredient = await Ingredients.findById(ingredientId);
-        if (ingredient) {
-          doc.fill('black').fontSize(15).text('- ' + ingredient.name + ' ' + ingredient.description , { align: 'center' });
-          const imagePath = `./public/images/${ingredient.ingImg}`;
-          const imageWidth = 100; // Largeur de l'image en pixels
-          const xPosition = (doc.page.width - imageWidth) / 2;
-          doc.image(imagePath, xPosition, undefined, { width: imageWidth });
-          doc.moveDown(); 
-
-        }
-      } catch (error) {
-        console.error('Erreur lors de la récupération de l\'ingrédient', error);
-      }
-    }
-  }
-  // doc.fill('red');
-  // doc.fontSize(15).text('specialite : ',{ align: 'center' } );
-  // doc.fill('black');
-  // doc.fontSize(15).text( plat.specialite, { align: 'center' });
-  // doc.moveDown();
-  if (plat.specialite) {
-    doc.fill('red').fontSize(15).text('Spécialité :', { align: 'center' });
-
-    try {
-      const specialite = await Specialites.findById(plat.specialite);
-      if (specialite) {
-        doc.fill('black').fontSize(15).text('- ' + specialite.name, { align: 'center' });
-        const imagePath = `./public/images/${specialite.specImg}`;
-        const imageWidth = 30; // Largeur de l'image en pixels
-        const xPosition = (doc.page.width - imageWidth) / 2;
-        doc.image(imagePath, xPosition, undefined, { width: imageWidth });      }
-    } catch (error) {
-      console.error('Erreur lors de la récupération de la spécialité', error);
-    }
-  }
-  // doc.fill('red');
-  // doc.fontSize(15).text('recette : ' ,{ align: 'center' });
-  // doc.fill('black');
-  // doc.fontSize(15).text( plat.recette, { align: 'center' });
-  if (plat.recette && plat.recette.length > 0) {
-    doc.moveDown(); // Espacement entre les lignes
-    doc.fill('red').fontSize(15).text('Recette :',{ align: 'center' });
-
-    for (const recetteId of plat.recette) {
-      try {
-        const recette = await Recettes.findById(recetteId);
-        if (recette) {
-          doc.fill('black').fontSize(15).text('- ' + recette.order + ' : ' + recette.description,{ align: 'center' });
-
-        }
-      } catch (error) {
-        console.error('Erreur lors de la récupération de la recette', error);
-      }
-    }
-  }
-
-
-
-
-  // Finalisation du document PDF
-  doc.end();
-
-  console.log('Le PDF a été généré avec succès !');
 }
-
-
 
 export function putOnce(req, res) {
 
