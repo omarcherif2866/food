@@ -3,8 +3,8 @@ export interface Plat {
   name: string;
   timeOfCook: string;
   description: string;
-  withIngredients: string[];
-  specialite: string;
+  withIngredients: any[];
+  specialite: any;
   recette: any;
   images: any;
 

@@ -61,4 +61,4 @@ export class ServiceDetailsComponent {
   // direction(){
   //   this.router.navigate([routes.servicedetails])
   // }
-}
+
