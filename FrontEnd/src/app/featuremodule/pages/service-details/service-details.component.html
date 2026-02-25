@@ -73,22 +73,25 @@
             <i class="feather-list"></i>
             <h4>Ingrédients</h4>
           </div>
-          <div class="card-body">
-            <div class="lisiting-featues">
-              <div class="row">
-                <div class="featureslist d-flex align-items-center col-lg-4 col-md-4"
-                  *ngFor="let ing of plat?.withIngredients">
-                  <div class="feature-img">
-                    <img [src]="ing.ingImg || 'assets/img/featured/Feature-1.svg'" alt="{{ ing.name }}">
-                  </div>
-                  <div class="featues-info">
-                    <h6>{{ ing.name }}</h6>
-                    <p>{{ ing.description }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+<div class="card-body">
+  <div class="lisiting-featues">
+    <div class="row">
+      <div class="featureslist d-flex align-items-center col-lg-4 col-md-4"
+        *ngFor="let ing of plat?.withIngredients">
+        <div class="feature-img">
+          <img 
+            [src]="ing.ingImg || 'assets/img/featured/Feature-1.svg'" 
+            alt="{{ ing.name }}"
+            style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;">
+        </div>
+        <div class="featues-info">
+          <h6>{{ ing.name }}</h6>
+          <p>{{ ing.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
 
         <!-- ✅ Recette -->

@@ -16,25 +16,31 @@
   <div class="container">
       <div class="bookmarks-content grid-view featured-slider">
           <div class="row">
-            <div class="row">
-              <div class="col-lg-4 col-md-4 col-sm-6" *ngFor="let plat of plats">
-                <div class="card aos aos-init aos-animate" data-aos="fade-up">
-                  <div class="plat-img">
-                    <a [routerLink]="routes.servicedetailsById(plat._id)">
-                      <img [src]="plat.images ? plat.images : 'assets/img/default.png'" class="img-fluid" alt="plat-img">
-                    </a>
-                  </div>
-                  <div class="plat-details">
-                    <div class="card-body">
-                      <h3><a [routerLink]="routes.servicedetailsById(plat._id)">{{ plat.name }}</a></h3>
-                      <p>{{ plat.description }}</p>
-                      <h6> <img src="../../../../assets/img/clock.jpeg" width="25" height="25">{{ plat.timeOfCook }}</h6>
-
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+<div class="row">
+  <div class="col-lg-4 col-md-4 col-sm-6" *ngFor="let plat of plats">
+    <div class="card aos aos-init aos-animate" data-aos="fade-up">
+      <div class="plat-img">
+        <a [routerLink]="routes.servicedetailsById(plat._id)">
+          <img 
+            [src]="plat.images ? plat.images : 'assets/img/default.png'" 
+            class="img-fluid" 
+            alt="plat-img"
+            style="width: 100%; height: 220px; object-fit: cover;">
+        </a>
+      </div>
+      <div class="plat-details">
+        <div class="card-body">
+          <h3><a [routerLink]="routes.servicedetailsById(plat._id)">{{ plat.name }}</a></h3>
+          <p>{{ plat.description }}</p>
+          <h6>
+            <img src="../../../../assets/img/clock.jpeg" width="25" height="25">
+            {{ plat.timeOfCook }}
+          </h6>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 
