@@ -5,6 +5,7 @@ import Ingredients from '../Models/ingredients.js';
 import PDFDocument from 'pdfkit';
 import fs from 'fs';
 import cloudinary from 'cloudinary';
+import fetch from 'node-fetch';
 
 
 
@@ -293,23 +294,58 @@ export async function downloadPlatPDF(req, res) {
 //   console.log('Le PDF a été généré avec succès !');
 // }
 
+// Fonction utilitaire pour fetcher une image
+async function fetchImageBuffer(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Image non trouvée: ${url}`);
+    const arrayBuffer = await response.arrayBuffer();
+    return Buffer.from(arrayBuffer);
+  } catch (error) {
+    console.error('Erreur image:', error.message);
+    return null;
+  }
+}
+
 async function generatePDF(plat) {
   return new Promise(async (resolve, reject) => {
     const doc = new PDFDocument();
     const chunks = [];
 
-    // ✅ Collecte en mémoire au lieu d'écrire un fichier
     doc.on('data', chunk => chunks.push(chunk));
     doc.on('end', () => resolve(Buffer.concat(chunks)));
     doc.on('error', reject);
 
-    // ✅ Titre (pas d'image de fond — filesystem indisponible sur Vercel)
+    // ✅ Logo en haut à droite
+    const logoBuffer = await fetchImageBuffer('https://res.cloudinary.com/daxkymr4t/image/upload/v1772016044/images/logo_k2xir8.png');
+    if (logoBuffer) {
+      doc.image(logoBuffer, doc.page.width - 120, 20, { width: 100 });
+    }
+
+    doc.moveDown(4);
+
+    // Titre
     doc.fontSize(20).fill('red').text('Fiche Plat', { align: 'center' });
-    doc.moveDown(2);
+    doc.moveDown();
 
     // Nom
     doc.fontSize(16).fill('red').text('Nom :', { align: 'center' });
     doc.fontSize(16).fill('black').text(plat.name, { align: 'center', underline: true });
+    doc.moveDown();
+
+    // ✅ Image du plat
+    if (plat.images) {
+      const platImageUrl = plat.images.startsWith('http')
+        ? plat.images
+        : `https://res.cloudinary.com/daxkymr4t/image/upload/v1/images/${plat.images}`;
+
+      const platImageBuffer = await fetchImageBuffer(platImageUrl);
+      if (platImageBuffer) {
+        const imageWidth = 300;
+        const xPosition = (doc.page.width - imageWidth) / 2;
+        doc.image(platImageBuffer, xPosition, undefined, { width: imageWidth });
+      }
+    }
     doc.moveDown();
 
     // Temps de cuisson
@@ -317,7 +353,7 @@ async function generatePDF(plat) {
     doc.fontSize(15).fill('black').text(plat.timeOfCook, { align: 'center' });
     doc.moveDown();
 
-    // ✅ Ingrédients déjà populés — plus besoin de Ingredients.findById()
+    // ✅ Ingrédients avec images
     if (plat.withIngredients && plat.withIngredients.length > 0) {
       doc.fontSize(15).fill('red').text('Ingrédients :', { align: 'center' });
       doc.moveDown();
@@ -327,26 +363,35 @@ async function generatePDF(plat) {
           `- ${ingredient.name} : ${ingredient.description}`,
           { align: 'center' }
         );
-        doc.moveDown(0.5);
+
+        // ✅ Image de l'ingrédient
+        if (ingredient.ingImg) {
+          const ingImageUrl = ingredient.ingImg.startsWith('http')
+            ? ingredient.ingImg
+            : `https://res.cloudinary.com/daxkymr4t/image/upload/v1/images/${ingredient.ingImg}`;
+
+          const ingImageBuffer = await fetchImageBuffer(ingImageUrl);
+          if (ingImageBuffer) {
+            const imageWidth = 80;
+            const xPosition = (doc.page.width - imageWidth) / 2;
+            doc.image(ingImageBuffer, xPosition, undefined, { width: imageWidth });
+          }
+        }
+        doc.moveDown();
       }
-      doc.moveDown();
     }
 
-    // ✅ Spécialité déjà populée — plus besoin de Specialites.findById()
+    // ✅ Spécialité
     if (plat.specialite) {
       doc.fontSize(15).fill('red').text('Spécialité :', { align: 'center' });
-      doc.fontSize(13).fill('black').text(
-        `- ${plat.specialite.name}`,
-        { align: 'center' }
-      );
+      doc.fontSize(13).fill('black').text(`- ${plat.specialite.name}`, { align: 'center' });
       doc.moveDown();
     }
 
-    // ✅ Recette déjà populée — plus besoin de Recettes.findById()
+    // ✅ Recette
     if (plat.recette && plat.recette.length > 0) {
       doc.fontSize(15).fill('red').text('Recette :', { align: 'center' });
       doc.moveDown();
-
       for (const recette of plat.recette) {
         doc.fontSize(13).fill('black').text(
           `- ${recette.order} : ${recette.description}`,
