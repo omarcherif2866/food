@@ -381,6 +381,14 @@ async function generatePDF(plat) {
       }
     }
 
+doc.fontSize(16).fill('red').text('Comment préparer :', { align: 'center' });
+doc.moveDown(0.5);
+doc.fontSize(13).fill('black').text(plat.description, { 
+  align: 'left',
+  lineBreak: true  // ✅ respecte les \n
+});
+doc.moveDown();
+
     // ✅ Spécialité
     if (plat.specialite) {
       doc.fontSize(15).fill('red').text('Spécialité :', { align: 'center' });
