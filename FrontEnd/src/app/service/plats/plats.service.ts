@@ -29,7 +29,7 @@ export class PlatService {
     return this._http.delete<Plat>(`${this.apiUrl}/plats/${id}`);
   }
 
-  getbyid(id: number) {
+  getbyid(id: any) {
     return this._http.get<Plat>(`${this.apiUrl}/plats/${id}`);
   }
 

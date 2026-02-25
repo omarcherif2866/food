@@ -89,9 +89,14 @@ export class routes {
   public static get privacypolicy(): string {
     return this.baseUrl + '/pages/privacy-policy';
   }
-  public static get servicedetails(): string {
-    return this.baseUrl + '/pages/service-details';
-  }
+public static get servicedetails(): string {
+  return this.baseUrl + '/pages/service-details';
+}
+
+// Ajoute cette méthode
+public static servicedetailsById(id: string): string {
+  return this.baseUrl + '/pages/service-details/' + id;
+}
   public static get termscondition(): string {
     return this.baseUrl + '/pages/terms-condition';
   }

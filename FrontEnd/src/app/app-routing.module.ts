@@ -9,6 +9,11 @@ const routes: Routes = [
         (m) => m.FeaturemoduleModule
       ),
   },
+  {
+  path: 'servicedetails',
+  loadChildren: () => import('./featuremodule/pages/service-details/service-details.module')
+    .then(m => m.ServiceDetailsModule)
+}
 
   {
     path: 'error',

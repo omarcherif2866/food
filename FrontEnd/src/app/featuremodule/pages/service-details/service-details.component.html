@@ -1,5 +1,182 @@
-<!--Galler Slider Section-->
 <div class="bannergallery-section">
+  <div class="gallery-slider d-flex">
+    <div class="col-lg-3 col-md-3 col-sm-3" *ngIf="plat?.images">
+      <div class="gallery-widget">
+        <img class="img-fluid" [src]="plat?.images" alt="{{ plat?.name }}"/>
+      </div>
+    </div>
+    <div class="showphotos">
+      <a href="javascript:void(0)">... Show Photos</a>
+    </div>
+  </div>
+</div>
+
+<section class="details-description">
+  <div class="container">
+    <div class="about-details">
+      <div class="about-headings">
+        <div class="author-img">
+          <img [src]="plat?.images || 'assets/img/profiles/avatar-10.jpg'" alt="platimg">
+        </div>
+        <div class="authordetails">
+          <!-- ✅ Nom du plat -->
+          <h5>{{ plat?.name }}</h5>
+          <!-- ✅ Description -->
+          <p>{{ plat?.description }}</p>
+        </div>
+      </div>
+      <div class="rate-details">
+        <!-- ✅ Temps de cuisson -->
+        <h2><i class="feather-clock"></i> {{ plat?.timeOfCook }}</h2>
+      </div>
+    </div>
+    <div class="descriptionlinks">
+      <div class="row">
+        <div class="col-lg-9">
+          <ul>
+            <li><a href="javascript:void(0);"><i class="feather-share-2"></i> share</a></li>
+            <li><a href="javascript:void(0);"><i class="fa-regular fa-comment-dots"></i> Write a review</a></li>
+            <li><a href="javascript:void(0);"><i class="feather-heart"></i> Save</a></li>
+          </ul>
+        </div>
+        <div class="col-lg-3">
+          <div class="callnow">
+            <a [routerLink]="routes.contact"><i class="feather-phone-call"></i> Call Now</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="details-main-wrapper">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-9">
+
+        <!-- ✅ Description -->
+        <div class="card">
+          <div class="card-header">
+            <span class="bar-icon"><span></span><span></span><span></span></span>
+            <h4>Description</h4>
+          </div>
+          <div class="card-body">
+            <p>{{ plat?.description }}</p>
+          </div>
+        </div>
+
+        <!-- ✅ Ingrédients -->
+        <div class="card">
+          <div class="card-header">
+            <i class="feather-list"></i>
+            <h4>Ingrédients</h4>
+          </div>
+          <div class="card-body">
+            <div class="lisiting-featues">
+              <div class="row">
+                <div class="featureslist d-flex align-items-center col-lg-4 col-md-4"
+                  *ngFor="let ing of plat?.withIngredients">
+                  <div class="feature-img">
+                    <img [src]="ing.ingImg || 'assets/img/featured/Feature-1.svg'" alt="{{ ing.name }}">
+                  </div>
+                  <div class="featues-info">
+                    <h6>{{ ing.name }}</h6>
+                    <p>{{ ing.description }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ✅ Recette -->
+        <div class="card" *ngIf="plat?.recette && plat?.recette!.length > 0">
+          <div class="card-header">
+            <i class="feather-book"></i>
+            <h4>Recette</h4>
+          </div>
+          <div class="card-body">
+            <ul>
+              <li *ngFor="let step of plat?.recette">{{ step }}</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Reviews (statique pour l'instant) -->
+        <div class="card review-sec mb-0">
+          <div class="card-header align-items-center">
+            <i class="fa-regular fa-comment-dots"></i>
+            <h4>Write a Review</h4>
+          </div>
+          <div class="card-body">
+            <div class="review-list">
+              <ul>
+                <li class="review-box feedbackbox mb-0">
+                  <div class="review-details">
+                    <h6>Leave feedback about this</h6>
+                  </div>
+                  <div class="card-body">
+                    <form>
+                      <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Title">
+                      </div>
+                      <div class="namefield">
+                        <div class="form-group">
+                          <input type="text" class="form-control" placeholder="Name*" required>
+                        </div>
+                        <div class="form-group me-0">
+                          <input type="email" class="form-control" placeholder="Email*" required>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <textarea rows="4" class="form-control" placeholder="Write a Review*" required></textarea>
+                      </div>
+                      <div class="submit-section">
+                        <button class="btn btn-primary submit-btn" type="submit">Submit Review</button>
+                      </div>
+                    </form>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Sidebar -->
+      <div class="col-lg-3 theiaStickySidebar">
+        <div class="stickybar">
+          <div class="rightsidebar">
+            <!-- ✅ Détails du plat -->
+            <div class="card">
+              <h4><img src="assets/img/details-icon.svg" alt="details-icon"> Détails</h4>
+              <ul>
+                <li>Nom <span>{{ plat?.name }}</span></li>
+                <li>Temps de cuisson <span>{{ plat?.timeOfCook }}</span></li>
+                <li>Spécialité <span>{{ plat?.specialite?.name }}</span></li>
+                <li class="p-0">Ingrédients <span>{{ plat?.withIngredients?.length }}</span></li>
+              </ul>
+            </div>
+
+            <!-- Spécialité -->
+            <div class="card" *ngIf="plat?.specialite">
+              <h4><i class="feather-tag"></i> Spécialité</h4>
+              <ul class="info-list">
+                <li>{{ plat?.specialite?.name }}</li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="bannergallery-section">
     <div class="gallery-slider d-flex">
            	
            <ng-container *ngFor="let image of albumsTwo; let i = index">
@@ -21,9 +198,7 @@
            </div>								
       </div>			
 </div>		
-<!--/Galler Slider Section-->
 
-<!--Details Description  Section-->
 <section class="details-description">
    <div class="container">
          <div class="about-details">
@@ -70,9 +245,7 @@
          </div>
    </div>		
 </section>
-<!--/Details Description  Section-->
 
-<!--Details Main  Section-->
 <div class="details-main-wrapper">	
    <div class="container">
            <div class="row">
@@ -92,7 +265,6 @@
                        </div>
                    </div>					
                        
-               <!--Listing Features Section-->
                <div class="card ">
                    <div class="card-header">
                            <i class="feather-list"></i>
@@ -169,9 +341,7 @@
                        </div>	
                    </div>	
                </div>									
-               <!--/Listing Features Section-->
-                   
-               <!--Gallery Section-->							   
+						   
                <div class="card gallery-section ">
                    <div class="card-header ">
                        <img src="assets/img/galleryicon.svg" alt="gallery">
@@ -198,9 +368,7 @@
                      </div>									
                    </div>					
                </div>									
-               <!--/Gallery Section-->
-               
-               <!--Ratings Section-->
+
                <div class="card ">
                    <div class="card-header  align-items-center">
                        <i class="feather-star"></i>
@@ -276,9 +444,7 @@
                        </div>
                    </div>
                </div>							
-               <!--/Ratings Section-->
-                   
-               <!--Review  Section-->
+
                <div  class="card review-sec  mb-0">
                    <div class="card-header  align-items-center">
                        <i class="fa-regular fa-comment-dots"></i>
@@ -434,7 +600,6 @@
                        </div>
                    </div>
                </div>	
-               <!--/Review Section-->	
                    
            </div>
            <div class="col-lg-3 theiaStickySidebar">
@@ -523,5 +688,4 @@
            </div>
        </div>
    </div>		
-</div>		
-<!-- /Details Main Section -->
+</div>		 -->
