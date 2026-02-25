@@ -124,9 +124,7 @@ export async function DeletePlat(req, res) {
 
 export async function getPlatById(req, res) {
   try {
-    const platId = req.params.id;
-    
-    const plat = await Plats.findById(platId)
+    const plat = await Plats.findById(req.params.id)
       .populate('specialite')
       .populate('withIngredients')
       .populate('recette');
@@ -135,16 +133,11 @@ export async function getPlatById(req, res) {
       return res.status(404).json({ message: 'Plat non trouvé' });
     }
 
-    // Génère le PDF et l'envoie en téléchargement
-    // const pdfBuffer = await generatePDF(plat);
-    
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', `attachment; filename="${plat.name}.pdf"`);
-    // res.send(pdfBuffer);
+    res.json(plat); // ✅ renvoie simplement le JSON
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Erreur lors de la récupération du plat' });
+    res.status(500).json({ message: error.message });
   }
 }
 
