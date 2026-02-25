@@ -20,18 +20,30 @@ export class ServiceDetailsComponent {
     private platService: PlatService
   ) {}
 
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    if (id) {
-      this.platService.getbyid(id).subscribe({
-        next: (data) => {
-          this.plat = data;
-          console.log("plat details:",this.plat);
-        },
-        error: (err) => console.error('Erreur:', err)
-      });
-    }
+ngOnInit(): void {
+  const id = this.route.snapshot.paramMap.get('id');
+  if (id) {
+    this.platService.getbyid(id).subscribe({
+      next: (data) => this.plat = data,
+      error: (err) => console.error('Erreur:', err)
+    });
   }
+}
+
+downloadPDF(): void {
+  this.platService.downloadPDF(this.plat._id).subscribe({
+    next: (blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${this.plat.name}.pdf`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    },
+    error: (err) => console.error('Erreur téléchargement PDF:', err)
+  });
+}
+  
 }
   // public routes=routes;
   // public albumsOne: any = [];

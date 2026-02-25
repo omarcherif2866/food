@@ -40,8 +40,8 @@
           </ul>
         </div>
         <div class="col-lg-3">
-          <div class="callnow">
-            <a [routerLink]="routes.contact"><i class="feather-phone-call"></i> Call Now</a>
+          <div class="callnow" (click)="downloadPDF()">
+            <i class="feather-download"></i> Télécharger la fiche PDF
           </div>
         </div>
       </div>

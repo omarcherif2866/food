@@ -2,7 +2,7 @@ import express from 'express';
 import { body } from "express-validator";
 import multer from "../Middelware/multerConfig.js";
 
-import { addOncePlat, getAll, DeletePlat, getPlatById, putOnce, getPlatsBySpeciality } from '../Controllers/Plats.js';
+import { getPlatDetails, downloadPlatPDF, addOncePlat, getAll, DeletePlat, getPlatById, putOnce, getPlatsBySpeciality } from '../Controllers/Plats.js';
 
 
 const router = express.Router();
@@ -23,6 +23,8 @@ router.route('/:id')
 .put(
     multer("images"),
     putOnce)
+
+router.route('/:id/pdf').get(downloadPlatPDF);      // ← téléchargement PDF
 
 router.route('/speicalite/:specialityId')
 .get(getPlatsBySpeciality)

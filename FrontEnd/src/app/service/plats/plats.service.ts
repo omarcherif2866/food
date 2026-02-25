@@ -72,4 +72,13 @@ export class PlatService {
   //   return uniquePlatsArray;
   // }
 
+
+
+// ✅ Télécharge le PDF
+downloadPDF(id: string): Observable<Blob> {
+  return this._http.get(`${this.apiUrl}/plats/${id}/pdf`, {
+    responseType: 'blob'
+  });
+}
+
 }

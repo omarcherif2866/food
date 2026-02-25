@@ -124,24 +124,50 @@ export async function DeletePlat(req, res) {
 
 export async function getPlatById(req, res) {
   try {
-    const platId = req.params.id; // Identifiant du plat à récupérer
-
-    // Récupération du plat depuis la collection de plats (exemple avec Mongoose)
-    const plat = await Plats.findById(platId);
+    const platId = req.params.id;
+    
+    const plat = await Plats.findById(platId)
+      .populate('specialite')
+      .populate('withIngredients')
+      .populate('recette');
 
     if (!plat) {
       return res.status(404).json({ message: 'Plat non trouvé' });
     }
 
-    // Génération du PDF avec les caractéristiques du plat
-    generatePDF(plat);
+    // Génère le PDF et l'envoie en téléchargement
+    // const pdfBuffer = await generatePDF(plat);
+    
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="${plat.name}.pdf"`);
+    res.send(pdfBuffer);
 
-    // Réponse de l'API avec les caractéristiques du plat
-    res.json(plat);
-    // console.log(plat)
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erreur lors de la récupération du plat' });
+  }
+}
+
+// ✅ Fonction 1 — Récupère les données JSON
+
+// ✅ Fonction 2 — Télécharge le PDF
+export async function downloadPlatPDF(req, res) {
+  try {
+    const plat = await Plats.findById(req.params.id)
+      .populate('specialite')
+      .populate('withIngredients')
+      .populate('recette');
+
+    if (!plat) return res.status(404).json({ message: 'Plat non trouvé' });
+
+    const pdfBuffer = await generatePDF(plat);
+
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="${plat.name}.pdf"`);
+    res.send(pdfBuffer);
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 }
 
@@ -273,7 +299,6 @@ async function generatePDF(plat) {
 
   console.log('Le PDF a été généré avec succès !');
 }
-
 
 
 
