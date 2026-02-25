@@ -140,7 +140,7 @@ export async function getPlatById(req, res) {
     
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', `attachment; filename="${plat.name}.pdf"`);
-    res.send(pdfBuffer);
+    // res.send(pdfBuffer);
 
   } catch (error) {
     console.error(error);
