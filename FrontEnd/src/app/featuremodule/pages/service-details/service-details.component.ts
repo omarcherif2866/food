@@ -24,7 +24,10 @@ export class ServiceDetailsComponent {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.platService.getbyid(id).subscribe({
-        next: (data) => this.plat = data,
+        next: (data) => {
+          this.plat = data;
+          console.log("plat details:",this.plat);
+        },
         error: (err) => console.error('Erreur:', err)
       });
     }
