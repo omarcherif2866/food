@@ -2,7 +2,7 @@ import express from 'express';
 import { body } from "express-validator";
 import multer from "../Middelware/multerConfig.js";
 
-import { getPlatDetails, downloadPlatPDF, addOncePlat, getAll, DeletePlat, getPlatById, putOnce, getPlatsBySpeciality } from '../Controllers/Plats.js';
+import { downloadPlatPDF, addOncePlat, getAll, DeletePlat, getPlatById, putOnce, getPlatsBySpeciality } from '../Controllers/Plats.js';
 
 
 const router = express.Router();
