@@ -13,7 +13,7 @@ const routes: Routes = [
   path: 'servicedetails',
   loadChildren: () => import('./featuremodule/pages/service-details/service-details.module')
     .then(m => m.ServiceDetailsModule)
-}
+},
 
   {
     path: 'error',
